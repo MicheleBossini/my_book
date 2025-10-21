@@ -1,6 +1,6 @@
 @startuml smart_coffee_maker
 
-title ☕ Smart Coffee Maker - Process and Safety Overview
+title ☕ Automatic Coffee Maker - Process and Safety Overview
 
 package "GVL (Global Variable List)" as GVL {
   [Start : BOOL]
@@ -31,10 +31,12 @@ rectangle "TASK 2 - Coffee Process" as Task2 {
 }
 
 ' --- Connections for TASK 1 ---
-[Read_Temperature] --> [Read_Level] : check water level
+
 [Read_Level] --> [Filling_Process] : if <100%
 [Filling_Process] --> [Heating_Process] : when level=100%
-[Heating_Process] --> [Water_Ready_Flag] : when hot enough
+[Read_Level] --> [Heating_Process] : if = 100%
+[Heating_Process] --> [Read_Temperature] :set HEATING = TRUE
+[Read_Temperature] --> [Water_Ready_Flag] :when Water_Temp
 [Water_Ready_Flag] --> GVL : set Water_Ready=TRUE
 
 ' --- Connections for TASK 2 ---
